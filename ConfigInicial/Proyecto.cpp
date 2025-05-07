@@ -111,6 +111,7 @@ float scaleOldDesks = 1.0f;
 float newDesksYPos = 10.0f; // Posición inicial en el cielo
 float animationTime = 0.0f;
 const float animationDuration = 5.0f; // Duración total de la animación en segundos
+bool showComputersAndKeyboards = true;
 float column_2 = 14.0f; //No quitar, es para el acomodo de modelos
 
 
@@ -173,7 +174,6 @@ int main()
 	Model Escritorios((char*)"Models/all_desk.obj");
 	Model NewEscri((char*)"Models/all_new_desk.obj");
 	Model Compu((char*)"Models/computadora.obj");
-	Model Mouse((char*)"Models/mouse.obj");
 	Model Teclado((char*)"Models/teclado.obj");
 	Model Silla((char*)"Models/silla.obj");
 	Model Piso((char*)"Models/suelo.obj");
@@ -364,700 +364,701 @@ int main()
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Pizza.Draw(lightingShader);
-
-		//Compus
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		//Segunda columna
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Compu.Draw(lightingShader);
-
-		//Teclado
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		//Segunda columna
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Teclado.Draw(lightingShader);
-
+		
+		if (showComputersAndKeyboards) {
+			//Compus
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			//Segunda columna
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Compu.Draw(lightingShader);
+
+			//Teclado
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			//Segunda columna
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 24.8f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -6.2f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -12.4f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -18.6f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Teclado.Draw(lightingShader);
+		}
 
 		//Sillaaaaaa
 
@@ -1570,6 +1571,9 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	if (keys[GLFW_KEY_R] && !activateAnimation) {
 		activateAnimation = true;
 		animationTime = 0.0f;
+	}
+	if (keys[GLFW_KEY_C]) {
+		showComputersAndKeyboards = !showComputersAndKeyboards;
 	}
 }
 void Animation() {
