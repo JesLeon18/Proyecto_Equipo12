@@ -183,8 +183,8 @@ int main()
 	Model Ventana((char*)"Models/all_windows.obj");
 	Model Pizza((char*)"Models/pizzaron.obj");
 	Model bodega((char*)"Models/bodega.obj");
-	Model emerg((char*)"Models/emerg.obj");
-
+	Model emerg((char*)"Models/emerg.obj"); 
+	Model cosoMadera((char*)"Models/cosoMadera.obj");
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -1428,6 +1428,12 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		emerg.Draw(lightingShader);
 
+		//coso madera
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		cosoMadera.Draw(lightingShader);
 
 
 		glBindVertexArray(0);
