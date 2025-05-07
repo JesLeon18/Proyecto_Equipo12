@@ -1,9 +1,7 @@
-/*Autor: Lopez Hernandez Yesenia Sarahi
-* Num. Cuenta: 317248683
-* Practica 11: Maquina de Estados
-* Objetivo: Con una maquina de estados hacer que el perro camine
-* alrededor del mapa
-* Fecha: 25 de Abril de 2025
+/*Autores:          Yesenia / Gbriela
+* Num. Cuenta: 317248683 / 317313521
+* Proyecto Equipo 12
+* Fecha: 07 de mayo de 2025
 */
 #include <iostream>
 #include <cmath>
@@ -133,7 +131,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);*/
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Yesenia Lopez Previo11: Animacion maquina de estados", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecto Equipo 12: Yesenia y Gabriela", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -184,7 +182,8 @@ int main()
 	Model luz((char*)"Models/leds.obj");
 	Model Ventana((char*)"Models/all_windows.obj");
 	Model Pizza((char*)"Models/pizzaron.obj");
-
+	Model bodega((char*)"Models/bodega.obj");
+	Model emerg((char*)"Models/emerg.obj");
 
 
 	// First, set the container's VAO (and VBO)
@@ -1769,7 +1768,19 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Silla.Draw(lightingShader);
 
+		//bodega
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-12.15f + column_2, 0.0f, -0.3f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		bodega.Draw(lightingShader);
 
+		//emergencia
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		emerg.Draw(lightingShader);
 
 
 
