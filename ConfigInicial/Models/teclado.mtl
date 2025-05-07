@@ -1,4 +1,4 @@
-# Blender 4.4.3 MTL File: 'salon sin textura.blend'
+# Blender 4.2.9 LTS MTL File: 'None'
 # www.blender.org
 
 newmtl Material.006
@@ -30,3 +30,18 @@ Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
 map_Kd teclas.png
+
+newmtl wire_163224020
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+Pr 0.733945
+Pm 0.412844
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd mouse.png
