@@ -184,6 +184,8 @@ int main()
 	Model bodega((char*)"Models/bodega.obj");
 	Model emerg((char*)"Models/emerg.obj"); 
 	Model cosoMadera((char*)"Models/coso madera.obj");
+	Model puertaDer((char*)"Models/puertaDer.obj");
+	Model puertaIzq((char*)"Models/puertaIzq.obj");
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -331,17 +333,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Pared.Draw(lightingShader);
 
-		////Escritorios
-		//view = camera.GetViewMatrix();
-		//model = glm::mat4(1);
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//Escritorios.Draw(lightingShader);
-
-		//Escritorios
-		//view = camera.GetViewMatrix();
-		//model = glm::mat4(1);
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//NewEscri.Draw(lightingShader);
 		if (scaleOldDesks > 0.0f) {
 			model = glm::mat4(1);
 			model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -2101,6 +2092,20 @@ int main()
 		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		cosoMadera.Draw(lightingShader);
+
+		//puerta Izquierda
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		puertaIzq.Draw(lightingShader);
+
+		//puerta Dere
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		puertaDer.Draw(lightingShader);
 
 
 		glBindVertexArray(0);
