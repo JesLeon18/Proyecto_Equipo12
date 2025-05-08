@@ -327,9 +327,10 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		luz.Draw(lightingShader);
 
-		//Techo
-		view = camera.GetViewMatrix();
+		// Dibujar el techo con inclinacion
 		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 31.9f));
+		model = glm::rotate(model, glm::radians(roofAngle), glm::vec3(1.0f, 0.0f, 0.0f)); // Inclinar en el eje X
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Techo.Draw(lightingShader);
 
