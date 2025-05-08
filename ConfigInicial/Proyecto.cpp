@@ -1,9 +1,7 @@
-/*Autor: Lopez Hernandez Yesenia Sarahi
-* Num. Cuenta: 317248683
-* Practica 11: Maquina de Estados
-* Objetivo: Con una maquina de estados hacer que el perro camine 
-* alrededor del mapa
-* Fecha: 25 de Abril de 2025
+/*Autores:          Yesenia / Gbriela
+* Num. Cuenta: 317248683 / 317313521
+* Proyecto Equipo 12
+* Fecha: 07 de mayo de 2025
 */
 #include <iostream>
 #include <cmath>
@@ -32,8 +30,8 @@
 #include "Model.h"
 
 // Function prototypes
-void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
-void MouseCallback(GLFWwindow *window, double xPos, double yPos);
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+void MouseCallback(GLFWwindow* window, double xPos, double yPos);
 void DoMovement();
 void Animation();
 
@@ -107,22 +105,16 @@ float vertices[] = {
 
 glm::vec3 Light1 = glm::vec3(0);
 //Anim
-float rotBall = 0.0f;
-bool AnimBall = false;
-bool AnimDog = false;
-float rotDog = 0.0f;
-int dogAnim = 0;
-float FLegs = 0.0f;
-float RLegs = 0.0f;
-float head = 0.0f;
-float tail = 0.0f;
-glm::vec3 dogPos (0.0f,0.0f,0.0f);
-float dogRot = 0.0f;
-bool step = false;
-bool dogAct = false;
+bool activateAnimation = false;
+float rotationAngle = 0.0f;
+float scaleOldDesks = 1.0f;
+float newDesksYPos = 10.0f; // Posición inicial en el cielo
+float animationTime = 0.0f;
+const float animationDuration = 5.0f; // Duración total de la animación en segundos
 float column_2 = 14.0f; //No quitar, es para el acomodo de modelos
 
-
+//piso bool
+bool aparecePiso = true;
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -140,7 +132,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);*/
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Yesenia Lopez Previo11: Animacion maquina de estados", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecto Equipo 12: Yesenia y Gabriela", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -177,17 +169,27 @@ int main()
 
 	Shader lightingShader("Shader/lighting.vs", "Shader/lighting.frag");
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
-	
+
 	//models
 	Model Escritorios((char*)"Models/all_desk.obj");
+	Model NewEscri((char*)"Models/all_new_desk.obj");
 	Model Compu((char*)"Models/computadora.obj");
 	Model Mouse((char*)"Models/mouse.obj");
 	Model Teclado((char*)"Models/teclado.obj");
 	Model Silla((char*)"Models/silla.obj");
 	Model Piso((char*)"Models/suelo.obj");
-	Model Amar((char*)"Models/amarillo.obj");
-
-
+	Model Pared((char*)"Models/Paredes.obj");
+	Model Techo((char*)"Models/techo.obj");
+	Model luz((char*)"Models/leds.obj");
+	Model Ventana((char*)"Models/all_windows.obj");
+	Model Pizza((char*)"Models/pizzaron.obj");
+	Model bodega((char*)"Models/bodega.obj");
+	Model emerg((char*)"Models/emerg.obj"); 
+	Model cosoMadera((char*)"Models/cosoMadera.obj"); 
+	Model puertaDer((char*)"Models/puertaDer.obj");
+	Model puertaIzq((char*)"Models/puertaIzq.obj"); 
+	Model VentanasNuevas((char*)"Models/VentanasNuevas.obj");
+	Model sueloNuevo((char*)"Models/sueloNuevo.obj");
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -227,19 +229,19 @@ int main()
 		// Clear the colorbuffer
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	   
+
 		// OpenGL options
 		glEnable(GL_DEPTH_TEST);
 
-		
+
 		glm::mat4 modelTemp = glm::mat4(1.0f); //Temp
-		
-	
+
+
 
 		// Use cooresponding shader when setting uniforms/drawing objects
 		lightingShader.Use();
 
-        glUniform1i(glGetUniformLocation(lightingShader.Program, "diffuse"), 0);
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "diffuse"), 0);
 		//glUniform1i(glGetUniformLocation(lightingShader.Program, "specular"),1);
 
 		GLint viewPosLoc = glGetUniformLocation(lightingShader.Program, "viewPos");
@@ -248,25 +250,25 @@ int main()
 
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.6f,0.6f,0.6f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.6f, 0.6f, 0.6f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.6f, 0.6f, 0.6f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"),0.3f, 0.3f, 0.3f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.3f, 0.3f, 0.3f);
 
 
 		// Point light 1
-	    glm::vec3 lightColor;
-		lightColor.x= abs(sin(glfwGetTime() *Light1.x));
-		lightColor.y= abs(sin(glfwGetTime() *Light1.y));
-		lightColor.z= sin(glfwGetTime() *Light1.z);
+		glm::vec3 lightColor;
+		lightColor.x = abs(sin(glfwGetTime() * Light1.x));
+		lightColor.y = abs(sin(glfwGetTime() * Light1.y));
+		lightColor.z = sin(glfwGetTime() * Light1.z);
 
-		
+
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), lightColor.x,lightColor.y, lightColor.z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), lightColor.x,lightColor.y,lightColor.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), lightColor.x, lightColor.y, lightColor.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), lightColor.x, lightColor.y, lightColor.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 1.0f, 0.2f, 0.2f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].linear"), 0.045f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"),0.075f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"), 0.075f);
 
 
 		// SpotLight
@@ -280,7 +282,7 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.quadratic"), 0.7f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.cutOff"), glm::cos(glm::radians(12.0f)));
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.outerCutOff"), glm::cos(glm::radians(18.0f)));
-		
+
 
 		// Set material properties
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 5.0f);
@@ -301,8 +303,8 @@ int main()
 
 		glm::mat4 model(1);
 
-	
-		
+
+
 		//Carga de modelo 
 
 		//Piso
@@ -311,16 +313,62 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Piso.Draw(lightingShader);
 
+		//Lamparas
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		luz.Draw(lightingShader);
+
+		//Ventanas
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Ventana.Draw(lightingShader);
+		
+		//Techo
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Techo.Draw(lightingShader);
+
+		//Paredes
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Pared.Draw(lightingShader);
+
+		////Escritorios
 		//view = camera.GetViewMatrix();
 		//model = glm::mat4(1);
 		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//Amar.Draw(lightingShader);
+		//Escritorios.Draw(lightingShader);
 
 		//Escritorios
-        view = camera.GetViewMatrix();	
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//NewEscri.Draw(lightingShader);
+		if (scaleOldDesks > 0.0f) {
+			model = glm::mat4(1);
+			model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(scaleOldDesks));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Escritorios.Draw(lightingShader);
+		}
+
+		// Dibujar nuevos escritorios (si la animación está activa o completada)
+		if (activateAnimation || scaleOldDesks == 0.0f) {
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(0.0f, newDesksYPos, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			NewEscri.Draw(lightingShader);
+		} 
+
+		//Pizzaron
+		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Escritorios.Draw(lightingShader);
+		Pizza.Draw(lightingShader);
 
 		//Compus
 		view = camera.GetViewMatrix();
@@ -344,7 +392,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.2f));
@@ -366,7 +413,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-		
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 12.4f));
@@ -387,7 +433,6 @@ int main()
 		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 12.4f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
-
 
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -410,7 +455,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 24.8f));
@@ -431,7 +475,6 @@ int main()
 		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 24.8f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
-
 
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -454,7 +497,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -12.4f));
@@ -475,7 +517,6 @@ int main()
 		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -12.4f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
-
 
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -499,8 +540,6 @@ int main()
 		Compu.Draw(lightingShader);
 
 		//Segunda columna
-
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 0.0f));
@@ -521,7 +560,6 @@ int main()
 		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
-
 
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -544,7 +582,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 12.4f));
@@ -565,7 +602,6 @@ int main()
 		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 12.4f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
-
 
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -588,7 +624,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 24.8f));
@@ -609,7 +644,6 @@ int main()
 		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 24.8f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
-
 
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -632,7 +666,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -12.4f));
@@ -654,7 +687,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
 
-
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -18.6f));
@@ -675,362 +707,6 @@ int main()
 		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -18.6f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
-
-		//Mouse
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		//Segunda columna
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, 24.8f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -6.2f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -12.4f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.15f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.3f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-6.45f + column_2, 0.0f, -18.6f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Mouse.Draw(lightingShader);
-
 
 		//Teclado
 
@@ -1743,12 +1419,68 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Silla.Draw(lightingShader);
 
+		//bodega
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-12.15f + column_2, 0.0f, -0.3f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		bodega.Draw(lightingShader);
 
+		//emergencia
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		emerg.Draw(lightingShader);
 
+		//coso madera
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		cosoMadera.Draw(lightingShader);
+
+		//puerta Izquierda
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		puertaIzq.Draw(lightingShader);
+
+		//puerta Dere
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		puertaDer.Draw(lightingShader);
+
+		//Ventanas nuevas
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		VentanasNuevas.Draw(lightingShader); 
 
 		
+
+		if (aparecePiso == true) {
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Piso.Draw(lightingShader);
+		}
+		else {
+			//Suelo nuevo
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+			//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			sueloNuevo.Draw(lightingShader);
+		}
+
+
 		glBindVertexArray(0);
-	
+
 
 		// Also draw the lamp object, again binding the appropriate shader
 		lampShader.Use();
@@ -1765,14 +1497,14 @@ int main()
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		// Draw the light object (using light's vertex attributes)
-		
-			model = glm::mat4(1);
-			model = glm::translate(model, pointLightPositions[0]);
-			model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		
+
+		model = glm::mat4(1);
+		model = glm::translate(model, pointLightPositions[0]);
+		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
 		glBindVertexArray(0);
 
 
@@ -1848,11 +1580,11 @@ void DoMovement()
 	{
 		pointLightPositions[0].z += 0.01f;
 	}
-	
+
 }
 
 // Is called whenever a key is pressed/released via GLFW
-void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
 	{
@@ -1877,219 +1609,42 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		if (active)
 		{
 			Light1 = glm::vec3(0.2f, 0.8f, 1.0f);
-			
+
 		}
 		else
 		{
 			Light1 = glm::vec3(0);//Cuado es solo un valor en los 3 vectores pueden dejar solo una componente
 		}
 	}
-	if (keys[GLFW_KEY_B])
-	{
-		dogAct = !dogAct;
-			if (dogAct)
-			{
-				dogAnim = 1;
-			}
-			else
-				dogAnim = 3;
+	if (keys[GLFW_KEY_R] && !activateAnimation) {
+		activateAnimation = true;
+		animationTime = 0.0f;
 	}
 }
 void Animation() {
-	if (AnimBall)
-	{
-		rotBall += 0.4f;
-		//printf("%f", rotBall);
-	}
-	
-	if (AnimDog)
-	{
-		rotDog += 1.0f;
-		if (rotDog >= 90.0f) {
-			AnimDog = !AnimDog;
-		}
-		//printf("%f", rotDog);
-	}
-	
-	if (dogAnim == 1)
-	{ //Walk animation
-		if (!step) { //State1
-			RLegs += 0.05f;
-			FLegs += 0.05;
-			head += 0.02;
-			tail += 0.05;
-			if (RLegs >= 15.0f) //Condition
-				step = true;
-		}
-		else
-		{
-			RLegs -= 0.05f;
-			FLegs -= 0.05;
-			head -= 0.02;
-			tail -= 0.05;
-			if (RLegs <= -15.0f) //Condition
-				step = false;
-		}
-		dogPos.z += 0.001;
-		if (dogPos.z >= 2.3f) //Condition
-			dogAnim = 2;
-	}
-	else if (dogAnim == 2) {
-		AnimDog = true;
-		if (rotDog >= 90.0f) {
-			dogAnim = 3;
-		}
-	}
-	else if (dogAnim == 3)
-	{
-		if (!step) { //State1
-			RLegs += 0.05f;
-			FLegs += 0.05;
-			head += 0.02;
-			tail += 0.05;
-			if (RLegs >= 15.0f) //Condition
-				step = true;
-		}
-		else
-		{
-			RLegs -= 0.05f;
-			FLegs -= 0.05;
-			head -= 0.02;
-			tail -= 0.05;
-			if (RLegs <= -15.0f) //Condition
-				step = false;
-		}
-		dogPos.x += 0.001;
-		if (dogPos.x >= 2.0f) //Condition
-			dogAnim = 4;
-	}
-	else if (dogAnim == 4) {
-		AnimDog = true;
-		if (rotDog >= 180.0f) {
-			dogAnim = 5;
-		}
-	}
-	else if (dogAnim == 5)
-	{
-		if (!step) { //State1
-			RLegs += 0.05f;
-			FLegs += 0.05;
-			head += 0.02;
-			tail += 0.05;
-			if (RLegs >= 15.0f) //Condition
-				step = true;
-		}
-		else
-		{
-			RLegs -= 0.05f;
-			FLegs -= 0.05;
-			head -= 0.02;
-			tail -= 0.05;
-			if (RLegs <= -15.0f) //Condition
-				step = false;
-		}
-		dogPos.z -= 0.001;
-		if (dogPos.z <= -2.0f) //Condition
-			dogAnim = 6;
-	}
-	else if (dogAnim == 6) {
-		AnimDog = true;
-		if (rotDog >= 270.0f) {
-			dogAnim = 7;
-		}
-	}
-	else if (dogAnim == 7)
-	{
-		if (!step) { //State1
-			RLegs += 0.05f;
-			FLegs += 0.05;
-			head += 0.02;
-			tail += 0.05;
-			if (RLegs >= 15.0f) //Condition
-				step = true;
-		}
-		else
-		{
-			RLegs -= 0.05f;
-			FLegs -= 0.05;
-			head -= 0.02;
-			tail -= 0.05;
-			if (RLegs <= -15.0f) //Condition
-				step = false;
-		}
-		dogPos.x -= 0.001;
-		if (dogPos.x <= -2.0f) //Condition
-			dogAnim = 8;
-	}
-	else if (dogAnim == 8) {
-		AnimDog = true;
-		if (rotDog >= 360.0f) {
-			dogAnim = 9;
-		}
-	}
-	else if (dogAnim == 9)
-	{ //Walk animation
-		if (!step) { //State1
-			RLegs += 0.05f;
-			FLegs += 0.05;
-			head += 0.02;
-			tail += 0.05;
-			if (RLegs >= 15.0f) //Condition
-				step = true;
-		}
-		else
-		{
-			RLegs -= 0.05f;
-			FLegs -= 0.05;
-			head -= 0.02;
-			tail -= 0.05;
-			if (RLegs <= -15.0f) //Condition
-				step = false;
-		}
-		dogPos.z += 0.001;
-		if (dogPos.z >= 2.3f) //Condition
-			dogAnim = 10;
-	}
-	else if (dogAnim == 10) {
-		rotDog += 1.0f;
-		if (rotDog >= 495.0f) {
-			dogAnim = 11;
-		}
-	}
-	else if (dogAnim == 11)
-	{ //Walk animation
-		if (!step) { //State1
-			RLegs += 0.05f;
-			FLegs += 0.05;
-			head += 0.02;
-			tail += 0.05;
-			if (RLegs >= 15.0f) //Condition
-				step = true;
-		}
-		else
-		{
-			RLegs -= 0.05f;
-			FLegs -= 0.05;
-			head -= 0.02;
-			tail -= 0.05;
-			if (RLegs <= -15.0f) //Condition
-				step = false;
-		}
-		dogPos.z -= 0.001;
-		dogPos.x += 0.001;
-		if (dogPos.z <= 0.0f) //Condition
-			dogAnim = 12;
-			}
-	else if (dogAnim == 12) {
-		rotDog -= 1.0f;
-		if (rotDog <= 360.0f) {
-			dogAnim = 0;
-		}
-	}
+	if (activateAnimation) {
+		animationTime += deltaTime;
+		float progress = animationTime / animationDuration;
 
+		if (progress < 0.5f) {
+			// Fase 1: Rotación y reducción de escala de los escritorios antiguos
+			rotationAngle += 20.0f; // Giro rápido
+			scaleOldDesks = 1.0f - progress * 2.0f; // Reduce la escala hasta 0
+		}
+		else if (progress < 1.0f) {
+			// Fase 2: Caída de los nuevos escritorios
+			newDesksYPos = 10.0f - (progress - 0.5f) * 20.0f; // Cae desde Y=10 a Y=0
+		}
+		else {
+			// Finalizar animación
+			activateAnimation = false;
+			rotationAngle = 0.0f;
+			scaleOldDesks = 0.0f;
+			newDesksYPos = 0.0f;
+		}
+	}
 }
-
-void MouseCallback(GLFWwindow *window, double xPos, double yPos)
+void MouseCallback(GLFWwindow* window, double xPos, double yPos)
 {
 	if (firstMouse)
 	{
@@ -2106,3 +1661,4 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 
 	camera.ProcessMouseMovement(xOffset, yOffset);
 }
+
