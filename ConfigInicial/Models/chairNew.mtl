@@ -14,7 +14,7 @@ Pc 0.000000
 Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
-map_Kd C:/Users/yesis/Desktop/Proyecto_Compu_Grafica/Bleu_GamingChair_Mat_General_Chair_BaseColor.png
+map_Kd ChairRuedas.png
 
 newmtl Mat_Leather_Chair.003
 Ks 0.500000 0.500000 0.500000
@@ -29,4 +29,4 @@ Pc 0.000000
 Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
-map_Kd C:/Users/yesis/Desktop/Proyecto_Compu_Grafica/Bleu_GamingChair_Mat_Leather_Chair_BaseColor.png
+map_Kd ChairAsiento.png
