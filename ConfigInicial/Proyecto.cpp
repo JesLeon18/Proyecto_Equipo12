@@ -178,7 +178,7 @@ int main()
 	Model Teclado((char*)"Models/teclado.obj");
 	Model Silla((char*)"Models/silla.obj");
 	Model Piso((char*)"Models/suelo.obj");
-	Model Pared((char*)"Models/Paredes.obj");
+	Model Paredes((char*)"Models/Paredes.obj");
 	Model Techo((char*)"Models/techo.obj");
 	Model luz((char*)"Models/leds.obj");
 	Model Ventana((char*)"Models/all_windows.obj");
@@ -189,7 +189,10 @@ int main()
 	Model puertaDer((char*)"Models/puertaDer.obj");
 	Model puertaIzq((char*)"Models/puertaIzq.obj"); 
 	Model VentanasNuevas((char*)"Models/VentanasNuevas.obj");
-	Model sueloNuevo((char*)"Models/sueloNuevo.obj");
+	Model sueloNuevo((char*)"Models/sueloNuevo.obj"); 
+    Model columnaIzq((char*)"Models/columnaIzq.obj");
+	Model columnaDer((char*)"Models/columnaDer.obj");
+
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -335,7 +338,7 @@ int main()
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Pared.Draw(lightingShader);
+		Paredes.Draw(lightingShader);
 
 		////Escritorios
 		//view = camera.GetViewMatrix();
@@ -1478,6 +1481,19 @@ int main()
 			sueloNuevo.Draw(lightingShader);
 		}
 
+		//Columna derecha 
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		columnaDer.Draw(lightingShader);
+
+		//Columna izquierda
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		columnaIzq.Draw(lightingShader);
 
 		glBindVertexArray(0);
 
