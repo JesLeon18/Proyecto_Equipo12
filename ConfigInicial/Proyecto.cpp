@@ -113,7 +113,8 @@ float animationTime = 0.0f;
 const float animationDuration = 5.0f; // Duración total de la animación en segundos
 float column_2 = 14.0f; //No quitar, es para el acomodo de modelos
 
-
+//piso bool
+bool aparecePiso = true;
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -186,7 +187,9 @@ int main()
 	Model emerg((char*)"Models/emerg.obj"); 
 	Model cosoMadera((char*)"Models/cosoMadera.obj"); 
 	Model puertaDer((char*)"Models/puertaDer.obj");
-	Model puertaIzq((char*)"Models/puertaIzq.obj");
+	Model puertaIzq((char*)"Models/puertaIzq.obj"); 
+	Model VentanasNuevas((char*)"Models/VentanasNuevas.obj");
+	Model sueloNuevo((char*)"Models/sueloNuevo.obj");
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -359,7 +362,7 @@ int main()
 			model = glm::translate(model, glm::vec3(0.0f, newDesksYPos, 0.0f));
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			NewEscri.Draw(lightingShader);
-		}
+		} 
 
 		//Pizzaron
 		view = camera.GetViewMatrix();
@@ -1451,6 +1454,30 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		puertaDer.Draw(lightingShader);
 
+		//Ventanas nuevas
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		VentanasNuevas.Draw(lightingShader); 
+
+		
+
+		if (aparecePiso == true) {
+			view = camera.GetViewMatrix();
+			model = glm::mat4(1);
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Piso.Draw(lightingShader);
+		}
+		else {
+			//Suelo nuevo
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
+			//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			sueloNuevo.Draw(lightingShader);
+		}
+
 
 		glBindVertexArray(0);
 
@@ -1634,3 +1661,4 @@ void MouseCallback(GLFWwindow* window, double xPos, double yPos)
 
 	camera.ProcessMouseMovement(xOffset, yOffset);
 }
+
