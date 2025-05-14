@@ -208,6 +208,35 @@ int main()
     Model columnaIzq((char*)"Models/columnaIzq.obj");
 	Model columnaDer((char*)"Models/columnaDer.obj");
 
+	//Piso Nuevo
+	Model suelo1((char*)"Models/SueloN/1.obj");
+	Model suelo2((char*)"Models/SueloN/2.obj");
+	Model suelo3((char*)"Models/SueloN/3.obj");
+	Model suelo4((char*)"Models/SueloN/4.obj");
+	Model suelo5((char*)"Models/SueloN/5.obj");
+	Model suelo6((char*)"Models/SueloN/6.obj");
+	Model suelo7((char*)"Models/SueloN/7.obj");
+	Model suelo8((char*)"Models/SueloN/8.obj");
+	Model suelo9((char*)"Models/SueloN/9.obj");
+	Model suelo10((char*)"Models/SueloN/10.obj");
+	Model suelo11((char*)"Models/SueloN/11.obj");
+	Model suelo12((char*)"Models/SueloN/12.obj");
+	Model suelo13((char*)"Models/SueloN/13.obj");
+	Model suelo14((char*)"Models/SueloN/14.obj");
+	Model suelo15((char*)"Models/SueloN/15.obj");
+	Model suelo16((char*)"Models/SueloN/16.obj");
+	Model suelo17((char*)"Models/SueloN/17.obj");
+
+	//Tipa 
+	Model cuerpo((char*)"Models/Persona/cuerpo.obj");
+	Model pieI((char*)"Models/Persona/PieIzq.obj");
+	Model musloI((char*)"Models/Persona/MusloIzq.obj");
+	Model pieD((char*)"Models/Persona/PieDer.obj");
+	Model musloD((char*)"Models/Persona/MusloDer.obj");
+	Model BrazoI((char*)"Models/Persona/BrazoIzq.obj");
+	Model BrazoD((char*)"Models/Persona/BrazoDer.obj");
+
+
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -2484,6 +2513,139 @@ int main()
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			VentanasNuevas.Draw(lightingShader);
 		}
+		//Suelo nuevo
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-5.0f, 0.0f, 37.671f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo1.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(3.199f, 0.0f, 33.0013f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo2.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 29.7165f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo3.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 25.7165f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo4.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 21.7165f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo5.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 17.7165f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo6.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 13.7165f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo7.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 9.71652f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo8.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 5.71652f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo9.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 1.71653f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo10.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -2.28348f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo11.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -6.28348f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo12.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -10.2835f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo13.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -14.2835f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo14.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -16.2735f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo15.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -20.2835f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo16.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -23.2835f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		suelo17.Draw(lightingShader);
+
+		//Modelo de la tipa
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//Body
+		//modelTemp = model = glm::translate(model, TipaPos);
+		//modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		cuerpo.Draw(lightingShader);
+
+		//BrazoD
+		model = modelTemp; //modelTemp es para heredar los valores y afecte los cambios a los hijos 
+		model = glm::translate(model, glm::vec3(0.468652f, -1.21328f, 0.114035f));
+		//model = glm::rotate(model, glm::radians(head), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BrazoD.Draw(lightingShader);
+
+		//BrazoI
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(-0.482797f, -1.21328f, 0.114035f));
+		//model = glm::rotate(model, glm::radians(tail), glm::vec3(0.0f, 0.0f, -1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BrazoI.Draw(lightingShader);
+
+		//Muslo Derecho
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.193549f, -1.617093f, 0.026334f));
+		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		musloD.Draw(lightingShader);
+		//Muslo Izquierdo
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(-0.193549f, -1.617093f, 0.026334f));
+		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		musloI.Draw(lightingShader);
+		//Pie Derecho
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.160158f, -3.17849f, 0.038268f));
+		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		pieD.Draw(lightingShader);
+		//Pie Izquierdo
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(-0.160158f, -3.17849f, 0.038268f));
+		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		pieI.Draw(lightingShader);
 
 		//Columna derecha 
 		model = glm::mat4(1);
