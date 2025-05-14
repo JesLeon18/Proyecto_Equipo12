@@ -116,6 +116,25 @@ float column_2 = 14.0f; //No quitar, es para el acomodo de modelos
 float column_2n = 15.7f;
 float altura = 0.5f;
 float showComputersAndKeyboards = 0;
+float velocidad = 0.01f; //velosidad para la tipa 
+
+float tipaWalkDistance = 0.0f;
+const float maxWalkDistance = 10.0f; // Límite de distancia para caminar
+bool tipaWalking = false;
+float walkCycleTime = 0.0f;
+const float walkCycleSpeed = 4.0f; // Velocidad del ciclo de caminata
+
+//movimiento de la tipa
+float desplazamientoZ = 0.0f;      // Controla el movimiento hacia adelante
+float rotBrazoD = 0.0f, rotBrazoI = 0.0f;  // Rotación brazos
+float rotPiernaD = 0.0f, rotPiernaI = 0.0f; // Rotación piernas
+bool caminando = false;            // Estado de caminar (activado con C)
+
+// Variables para animación de brazos extendidos
+bool armsUp = false;
+float armRaiseTime = 0.0f;
+const float armRaiseDuration = 1.0f; // Duración de la animación de levantar brazos
+float armRaiseAngle = 0.0f; // Ángulo actual de elevación de brazos
 
 // Variables para la animaci n del techo y las sillas
 bool activateAnimation2 = false;
@@ -200,13 +219,13 @@ int main()
 	Model Ventana((char*)"Models/all_windows.obj");
 	Model Pizza((char*)"Models/pizzaron.obj");
 	Model bodega((char*)"Models/bodega.obj");
-	Model emerg((char*)"Models/emerg.obj"); 
-	Model cosoMadera((char*)"Models/cosoMadera.obj"); 
+	Model emerg((char*)"Models/emerg.obj");
+	Model cosoMadera((char*)"Models/cosoMadera.obj");
 	Model puertaDer((char*)"Models/puertaDer.obj");
-	Model puertaIzq((char*)"Models/puertaIzq.obj"); 
+	Model puertaIzq((char*)"Models/puertaIzq.obj");
 	Model VentanasNuevas((char*)"Models/VentanasNuevas.obj");
-	Model sueloNuevo((char*)"Models/sueloNuevo.obj"); 
-    Model columnaIzq((char*)"Models/columnaIzq.obj");
+	Model sueloNuevo((char*)"Models/sueloNuevo.obj");
+	Model columnaIzq((char*)"Models/columnaIzq.obj");
 	Model columnaDer((char*)"Models/columnaDer.obj");
 
 	//Piso Nuevo
@@ -378,7 +397,7 @@ int main()
 			model = glm::translate(model, glm::vec3(0.0f, newDesksYPos, 0.0f));
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			NewEscri.Draw(lightingShader);
-		} 
+		}
 
 		//Pizzaron
 		view = camera.GetViewMatrix();
@@ -1745,7 +1764,7 @@ int main()
 				Teclado.Draw(lightingShader);
 			}
 		}
-		
+
 
 		//Sillaaaaaa
 		if (showOldChairs) {
@@ -2491,7 +2510,7 @@ int main()
 			view = camera.GetViewMatrix();
 			model = glm::mat4(1);
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			Ventana.Draw(lightingShader); 
+			Ventana.Draw(lightingShader);
 		}
 		else {
 			//Suelo nuevo
@@ -2605,46 +2624,48 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		//Body
 		modelTemp = model = glm::translate(model, TipaPos);
-		//modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		cuerpo.Draw(lightingShader);
 
 		//BrazoD
-		model = modelTemp; //modelTemp es para heredar los valores y afecte los cambios a los hijos 
+		model = modelTemp;
 		model = glm::translate(model, glm::vec3(0.468652f, -1.21328f, 0.114035f));
-		//model = glm::rotate(model, glm::radians(head), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(rotBrazoD), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotación en Z
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		BrazoD.Draw(lightingShader);
 
 		//BrazoI
 		model = modelTemp;
 		model = glm::translate(model, glm::vec3(-0.482797f, -1.21328f, 0.114035f));
-		//model = glm::rotate(model, glm::radians(tail), glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::rotate(model, glm::radians(rotBrazoI), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		BrazoI.Draw(lightingShader);
 
-		//Muslo Derecho
+		// Muslo Derecho (rotación para caminar)
 		model = modelTemp;
 		model = glm::translate(model, glm::vec3(0.193549f, -1.617093f, 0.026334f));
-		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotPiernaD), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		musloD.Draw(lightingShader);
-		//Muslo Izquierdo
+
+		// Muslo Izquierdo (rotación opuesta)
 		model = modelTemp;
 		model = glm::translate(model, glm::vec3(-0.193549f, -1.617093f, 0.026334f));
-		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotPiernaI), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		musloI.Draw(lightingShader);
-		//Pie Derecho
+
+		// Pie Derecho (pequeño movimiento para seguir la pierna)
 		model = modelTemp;
 		model = glm::translate(model, glm::vec3(0.160158f, -3.17849f, 0.038268f));
-		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotPiernaD * 0.5f), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		pieD.Draw(lightingShader);
-		//Pie Izquierdo
+
+		// Pie Izquierdo (pequeño movimiento para seguir la pierna)
 		model = modelTemp;
 		model = glm::translate(model, glm::vec3(-0.160158f, -3.17849f, 0.038268f));
-		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotPiernaI * 0.5f), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		pieI.Draw(lightingShader);
 
@@ -2708,6 +2729,57 @@ int main()
 // Moves/alters the camera positions based on user input
 void DoMovement()
 {
+	// Animación de caminar
+	if (tipaWalking && tipaWalkDistance < maxWalkDistance) {
+		float walkSpeed = 1.5f * deltaTime; // Velocidad de desplazamiento
+
+		// Actualizar posición
+		TipaPos.z -= walkSpeed;
+		tipaWalkDistance += walkSpeed;
+
+		// Animación cíclica de caminata
+		walkCycleTime += deltaTime * walkCycleSpeed;
+
+		// Movimiento de brazos (alternados)
+		rotBrazoD = sin(walkCycleTime) * 30.0f; // Oscila entre -30 y 30 grados
+		rotBrazoI = -rotBrazoD; // Brazo izquierdo hace lo contrario
+
+		// Movimiento de piernas (alternados con mayor amplitud)
+		rotPiernaD = sin(walkCycleTime) * 45.0f; // Oscila entre -45 y 45 grados
+		rotPiernaI = -rotPiernaD;
+
+		// Pequeño movimiento vertical para simular pasos
+		TipaPos.y = 3.42643f + sin(walkCycleTime * 2.0f) * 0.05f;
+
+		// Resetear animación de brazos levantados si estaba activa
+		armsUp = false;
+		armRaiseAngle = 0.0f;
+	}
+	else if (tipaWalking) {
+		// Detener la animación cuando se alcanza el límite
+		tipaWalking = false;
+		rotBrazoD = rotBrazoI = rotPiernaD = rotPiernaI = 0.0f;
+		TipaPos.y = 3.42643f; // Restablecer altura
+
+		// Activar animación de brazos levantados
+		armsUp = true;
+		armRaiseTime = 0.0f;
+	}
+
+	// Animación de brazos levantados
+	if (armsUp && armRaiseTime < armRaiseDuration) {
+		armRaiseTime += deltaTime;
+		float progress = armRaiseTime / armRaiseDuration;
+
+		// Suavizar la animación con función de ease-out
+		float t = 1.0f - (1.0f - progress) * (1.0f - progress);
+		armRaiseAngle = t * 90.0f; // Levantar hasta 90 grados
+
+		// Aplicar a ambos brazos
+		rotBrazoD = -armRaiseAngle;
+		rotBrazoI = -armRaiseAngle;
+	}
+
 
 	// Camera controls
 	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
@@ -2811,6 +2883,18 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		animationTime2 = 0.0f;
 		showOldChairs = true;
 	}
+	if (keys[GLFW_KEY_C] && action == GLFW_PRESS) {
+		if (!tipaWalking) {
+			tipaWalking = true;
+			tipaWalkDistance = 0.0f; // Resetear distancia
+			walkCycleTime = 0.0f;    // Resetear ciclo
+			armsUp = false;          // Desactivar brazos levantados
+		}
+		else {
+			tipaWalking = false;
+			// No resetear rotaciones aquí, dejar que DoMovement() maneje la transición
+		}
+	}
 }
 void Animation() {
 	if (activateAnimation) {
@@ -2890,4 +2974,3 @@ void MouseCallback(GLFWwindow* window, double xPos, double yPos)
 
 	camera.ProcessMouseMovement(xOffset, yOffset);
 }
-
