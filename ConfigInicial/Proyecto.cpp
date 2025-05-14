@@ -105,6 +105,7 @@ float vertices[] = {
 
 glm::vec3 Light1 = glm::vec3(0);
 //Anim
+glm::vec3 TipaPos(-2.93594, 3.42643, 40.3427f);
 bool activateAnimation = false;
 float rotationAngle = 0.0f;
 float scaleOldDesks = 1.0f;
@@ -2603,7 +2604,7 @@ int main()
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		//Body
-		//modelTemp = model = glm::translate(model, TipaPos);
+		modelTemp = model = glm::translate(model, TipaPos);
 		//modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		cuerpo.Draw(lightingShader);
