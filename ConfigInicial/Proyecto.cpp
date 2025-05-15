@@ -127,8 +127,35 @@ const float walkCycleSpeed = 4.0f; // Velocidad del ciclo de caminata
 //movimiento de la tipa
 float desplazamientoZ = 0.0f;      // Controla el movimiento hacia adelante
 float rotBrazoD = 0.0f, rotBrazoI = 0.0f;  // Rotación brazos
+float rotBrazoD2 = 0.0f, rotBrazoI2 = 0.0f;  // Rotación brazos para caminar
 float rotPiernaD = 0.0f, rotPiernaI = 0.0f; // Rotación piernas
 bool caminando = false;            // Estado de caminar (activado con C)
+
+// Variables para la animación del suelo nuevo (sin vectores)
+bool activateFloorAnimation = false;
+float floorAnimationTime = 0.0f;
+const float floorAnimationDuration = 5.0f; // Duración total de la animación
+
+glm::vec3 suelo2FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+glm::vec3 suelo3FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+glm::vec3 suelo4FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+glm::vec3 suelo5FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+glm::vec3 suelo6FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+glm::vec3 suelo7FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+glm::vec3 suelo8FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+glm::vec3 suelo9FinalPos = glm::vec3(7.0f, 0.0f, 48.2758f);
+
+glm::vec3 suelo2InitialPos = glm::vec3(4.33657f, 0.0f, 29.6884f);
+glm::vec3 suelo3InitialPos = glm::vec3(4.29459f, 0.0f, -17.9097f);
+glm::vec3 suelo4InitialPos = glm::vec3(11.6496f, 0.0f, -11.2313f);
+glm::vec3 suelo5InitialPos = glm::vec3(-4.26047f, 0.0f, 2.64633f);
+glm::vec3 suelo6InitialPos = glm::vec3(6.91035f, 0.0f, 5.90945f);
+glm::vec3 suelo7InitialPos = glm::vec3(12.0511f, 0.0f, 2.73778f);
+glm::vec3 suelo8InitialPos = glm::vec3(-1.17046f, 0.0f, 20.507f);
+glm::vec3 suelo9InitialPos = glm::vec3(11.8622f, 0.0f, 20.4255f);
+
+glm::vec3 savedPosition = camera.GetPosition();
+glm::vec3 savedFront = camera.GetFront();
 
 // Variables para animación de brazos extendidos
 bool armsUp = false;
@@ -136,7 +163,7 @@ float armRaiseTime = 0.0f;
 const float armRaiseDuration = 1.0f; // Duración de la animación de levantar brazos
 float armRaiseAngle = 0.0f; // Ángulo actual de elevación de brazos
 
-// Variables para la animaci n del techo y las sillas
+// Variables para la animacion del techo y las sillas
 bool activateAnimation2 = false;
 float roofAngle = 0.0f;          //  ngulo de inclinaci n del techo
 float oldChairsOffset = 0.0f;    // Desplazamiento de las sillas antiguas
@@ -238,20 +265,10 @@ int main()
 	Model suelo7((char*)"Models/SueloN/7.obj");
 	Model suelo8((char*)"Models/SueloN/8.obj");
 	Model suelo9((char*)"Models/SueloN/9.obj");
-	Model suelo10((char*)"Models/SueloN/10.obj");
-	Model suelo11((char*)"Models/SueloN/11.obj");
-	Model suelo12((char*)"Models/SueloN/12.obj");
-	Model suelo13((char*)"Models/SueloN/13.obj");
-	Model suelo14((char*)"Models/SueloN/14.obj");
-	Model suelo15((char*)"Models/SueloN/15.obj");
-	Model suelo16((char*)"Models/SueloN/16.obj");
-	Model suelo17((char*)"Models/SueloN/17.obj");
 
 	//Tipa 
 	Model cuerpo((char*)"Models/Persona/cuerpo.obj");
-	Model pieI((char*)"Models/Persona/PieIzq.obj");
 	Model musloI((char*)"Models/Persona/MusloIzq.obj");
-	Model pieD((char*)"Models/Persona/PieDer.obj");
 	Model musloD((char*)"Models/Persona/MusloDer.obj");
 	Model BrazoI((char*)"Models/Persona/BrazoIzq.obj");
 	Model BrazoD((char*)"Models/Persona/BrazoDer.obj");
@@ -300,10 +317,7 @@ int main()
 		// OpenGL options
 		glEnable(GL_DEPTH_TEST);
 
-
 		glm::mat4 modelTemp = glm::mat4(1.0f); //Temp
-
-
 
 		// Use cooresponding shader when setting uniforms/drawing objects
 		lightingShader.Use();
@@ -2461,36 +2475,26 @@ int main()
 
 		//bodega
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-12.15f + column_2, 0.0f, -0.3f));
-		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		bodega.Draw(lightingShader);
 
 		//emergencia
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
-		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		emerg.Draw(lightingShader);
 
 		//coso madera
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
-		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		cosoMadera.Draw(lightingShader);
 
 		//puerta Izquierda
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
-		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		puertaIzq.Draw(lightingShader);
 
 		//puerta Dere
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
-		//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		puertaDer.Draw(lightingShader);
 
@@ -2513,13 +2517,6 @@ int main()
 			Ventana.Draw(lightingShader);
 		}
 		else {
-			//Suelo nuevo
-			model = glm::mat4(1);
-			model = glm::translate(model, glm::vec3(-14.0f + column_2, 0.0f, -0.02f));
-			//model = glm::scale(model, glm::vec3(1.25f, 0.75f, 0.0f)); 
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			sueloNuevo.Draw(lightingShader);
-
 			//Paredes Nuevas
 			view = camera.GetViewMatrix();
 			model = glm::mat4(1);
@@ -2535,89 +2532,49 @@ int main()
 		}
 		//Suelo nuevo
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-5.0f, 0.0f, 37.671f));
+		model = glm::translate(model, glm::vec3(23.0705f, 0.0f, 3.59264f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo1.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(3.199f, 0.0f, 33.0013f));
+		model = glm::translate(model, suelo2FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo2.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 29.7165f));
+		model = glm::translate(model, suelo3FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo3.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 25.7165f));
+		model = glm::translate(model, suelo4FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo4.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 21.7165f));
+		model = glm::translate(model, suelo5FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo5.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 17.7165f));
+		model = glm::translate(model, suelo6FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo6.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 13.7165f));
+		model = glm::translate(model, suelo7FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo7.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 9.71652f));
+		model = glm::translate(model, suelo8FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo8.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 5.71652f));
+		model = glm::translate(model, suelo9FinalPos);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		suelo9.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, 1.71653f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo10.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -2.28348f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo11.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -6.28348f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo12.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -10.2835f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo13.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -14.2835f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo14.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -16.2735f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo15.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -20.2835f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo16.Draw(lightingShader);
-
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(7.79012f, 0.0f, -23.2835f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		suelo17.Draw(lightingShader);
 
 		//Modelo de la tipa
 		model = glm::mat4(1);
@@ -2629,45 +2586,33 @@ int main()
 
 		//BrazoD
 		model = modelTemp;
-		model = glm::translate(model, glm::vec3(0.468652f, -1.21328f, 0.114035f));
+		model = glm::translate(model, glm::vec3(0.368652f, -0.31328f, 0.114035f));
 		model = glm::rotate(model, glm::radians(rotBrazoD), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotación en Z
+		model = glm::rotate(model, glm::radians(rotBrazoD2), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		BrazoD.Draw(lightingShader);
 
 		//BrazoI
 		model = modelTemp;
-		model = glm::translate(model, glm::vec3(-0.482797f, -1.21328f, 0.114035f));
+		model = glm::translate(model, glm::vec3(-0.382797f, -0.31328f, 0.114035f));
 		model = glm::rotate(model, glm::radians(rotBrazoI), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(rotBrazoI2), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		BrazoI.Draw(lightingShader);
 
 		// Muslo Derecho (rotación para caminar)
 		model = modelTemp;
-		model = glm::translate(model, glm::vec3(0.193549f, -1.617093f, 0.026334f));
+		model = glm::translate(model, glm::vec3(0.193549f, -1.217093f, 0.026334f));
 		model = glm::rotate(model, glm::radians(rotPiernaD), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		musloD.Draw(lightingShader);
 
 		// Muslo Izquierdo (rotación opuesta)
 		model = modelTemp;
-		model = glm::translate(model, glm::vec3(-0.193549f, -1.617093f, 0.026334f));
+		model = glm::translate(model, glm::vec3(-0.193549f, -1.217093f, 0.026334f));
 		model = glm::rotate(model, glm::radians(rotPiernaI), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		musloI.Draw(lightingShader);
-
-		// Pie Derecho (pequeño movimiento para seguir la pierna)
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(0.160158f, -3.17849f, 0.038268f));
-		model = glm::rotate(model, glm::radians(rotPiernaD * 0.5f), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		pieD.Draw(lightingShader);
-
-		// Pie Izquierdo (pequeño movimiento para seguir la pierna)
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(-0.160158f, -3.17849f, 0.038268f));
-		model = glm::rotate(model, glm::radians(rotPiernaI * 0.5f), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		pieI.Draw(lightingShader);
 
 		//Columna derecha 
 		model = glm::mat4(1);
@@ -2712,7 +2657,6 @@ int main()
 		glBindVertexArray(0);
 
 
-
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
 	}
@@ -2729,58 +2673,6 @@ int main()
 // Moves/alters the camera positions based on user input
 void DoMovement()
 {
-	// Animación de caminar
-	if (tipaWalking && tipaWalkDistance < maxWalkDistance) {
-		float walkSpeed = 1.5f * deltaTime; // Velocidad de desplazamiento
-
-		// Actualizar posición
-		TipaPos.z -= walkSpeed;
-		tipaWalkDistance += walkSpeed;
-
-		// Animación cíclica de caminata
-		walkCycleTime += deltaTime * walkCycleSpeed;
-
-		// Movimiento de brazos (alternados)
-		rotBrazoD = sin(walkCycleTime) * 30.0f; // Oscila entre -30 y 30 grados
-		rotBrazoI = -rotBrazoD; // Brazo izquierdo hace lo contrario
-
-		// Movimiento de piernas (alternados con mayor amplitud)
-		rotPiernaD = sin(walkCycleTime) * 45.0f; // Oscila entre -45 y 45 grados
-		rotPiernaI = -rotPiernaD;
-
-		// Pequeño movimiento vertical para simular pasos
-		TipaPos.y = 3.42643f + sin(walkCycleTime * 2.0f) * 0.05f;
-
-		// Resetear animación de brazos levantados si estaba activa
-		armsUp = false;
-		armRaiseAngle = 0.0f;
-	}
-	else if (tipaWalking) {
-		// Detener la animación cuando se alcanza el límite
-		tipaWalking = false;
-		rotBrazoD = rotBrazoI = rotPiernaD = rotPiernaI = 0.0f;
-		TipaPos.y = 3.42643f; // Restablecer altura
-
-		// Activar animación de brazos levantados
-		armsUp = true;
-		armRaiseTime = 0.0f;
-	}
-
-	// Animación de brazos levantados
-	if (armsUp && armRaiseTime < armRaiseDuration) {
-		armRaiseTime += deltaTime;
-		float progress = armRaiseTime / armRaiseDuration;
-
-		// Suavizar la animación con función de ease-out
-		float t = 1.0f - (1.0f - progress) * (1.0f - progress);
-		armRaiseAngle = t * 90.0f; // Levantar hasta 90 grados
-
-		// Aplicar a ambos brazos
-		rotBrazoD = -armRaiseAngle;
-		rotBrazoI = -armRaiseAngle;
-	}
-
-
 	// Camera controls
 	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
 	{
@@ -2871,19 +2763,19 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 			Light1 = glm::vec3(0);//Cuado es solo un valor en los 3 vectores pueden dejar solo una componente
 		}
 	}
-	if (keys[GLFW_KEY_R] && !activateAnimation) {
+	if (keys[GLFW_KEY_R]) {
 		activateAnimation = true;
 		animationTime = 0.0f;
 	}
 	if (keys[GLFW_KEY_T]) {
 		aparecePiso = !aparecePiso;
 	}
-	if (keys[GLFW_KEY_Y] && !activateAnimation) {
+	if (keys[GLFW_KEY_Y]) {
 		activateAnimation2 = true;
 		animationTime2 = 0.0f;
 		showOldChairs = true;
 	}
-	if (keys[GLFW_KEY_C] && action == GLFW_PRESS) {
+	if (keys[GLFW_KEY_C]) {
 		if (!tipaWalking) {
 			tipaWalking = true;
 			tipaWalkDistance = 0.0f; // Resetear distancia
@@ -2895,15 +2787,22 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 			// No resetear rotaciones aquí, dejar que DoMovement() maneje la transición
 		}
 	}
+
+	if (keys[GLFW_KEY_F]) {
+		activateFloorAnimation = true;
+		floorAnimationTime = 0.0f;
+	}
 }
+
 void Animation() {
+	//Animacion de escritorios
 	if (activateAnimation) {
 		animationTime += deltaTime;
 		float progress = animationTime / animationDuration;
 		showComputersAndKeyboards = 2;
 
 		if (progress < 0.5f) {
-			// Fase 1: Rotaci n y reducci n de escala de los escritorios antiguos
+			// Fase 1: Rotacion y reduccion de escala de los escritorios antiguos
 			rotationAngle += 20.0f; // Giro r pido
 			scaleOldDesks = 1.0f - progress * 2.0f; // Reduce la escala hasta 0
 		}
@@ -2920,13 +2819,13 @@ void Animation() {
 			showComputersAndKeyboards = 1;
 		}
 	}
-
+	//Animacion de sillas
 	if (activateAnimation2) {
 		animationTime2 += deltaTime;
 		float progress = animationTime2 / animationDuration2;
 
 		if (progress < 0.25f) {
-			// Fase 1: Inclinaci n del techo (0% - 25% del tiempo)
+			// Fase 1: Inclinacion del techo (0% - 25% del tiempo)
 			animationPhase = 1;
 			roofAngle = glm::mix(0.0f, 30.0f, progress / 0.25f); // Inclinar hasta 15 grados
 		}
@@ -2955,6 +2854,75 @@ void Animation() {
 			newChairsOffset = 0.0f;
 			animationPhase = 0;
 		}
+	}
+	//Animacion de las paredes
+	// Animación de caminar
+	if (tipaWalking && tipaWalkDistance < maxWalkDistance) {
+		float walkSpeed = 1.2f * deltaTime; // Velocidad de desplazamiento
+
+		// Actualizar posición
+		TipaPos.z -= walkSpeed;
+		tipaWalkDistance += walkSpeed;
+
+		// Animación cíclica de caminata
+		walkCycleTime += deltaTime * walkCycleSpeed;
+
+		// Movimiento de brazos (alternados)
+		rotBrazoD2 = sin(walkCycleTime) * 35.0f; // Oscila entre -30 y 30 grados
+		rotBrazoI2 = -rotBrazoD2; // Brazo izquierdo hace lo contrario
+
+		// Movimiento de piernas (alternados con mayor amplitud)
+		rotPiernaD = sin(walkCycleTime) * 25.0f; // Oscila entre -45 y 45 grados
+		rotPiernaI = -rotPiernaD;
+
+		// Pequeño movimiento vertical para simular pasos
+		TipaPos.y = 3.42643f + sin(walkCycleTime * 2.0f) * 0.05f;
+
+		// Resetear animación de brazos levantados si estaba activa
+		armsUp = false;
+		armRaiseAngle = 0.0f;
+	}
+	else if (tipaWalking) {
+		// Detener la animación cuando se alcanza el límite
+		tipaWalking = false;
+		rotBrazoD2 = rotBrazoI2 = rotPiernaD = rotPiernaI = 0.0f;
+		TipaPos.y = 3.42643f; // Restablecer altura
+
+		// Activar animación de brazos levantados
+		armsUp = true;
+		armRaiseTime = 0.0f;
+	}
+	// Animación de brazos levantados
+	if (armsUp && armRaiseTime < armRaiseDuration) {
+		armRaiseTime += deltaTime;
+		float progress = armRaiseTime / armRaiseDuration;
+
+		// Suavizar la animación con función de ease-out
+		float t = 1.0f - (1.0f - progress) * (1.0f - progress);
+		armRaiseAngle = t * 120.0f; // Levantar hasta 120 grados
+
+		// Aplicar a ambos brazos
+		rotBrazoD = armRaiseAngle;
+		rotBrazoI = -armRaiseAngle;
+	}
+	//Animacion del suelo 
+	if (activateFloorAnimation && floorAnimationTime < floorAnimationDuration) {
+		floorAnimationTime += deltaTime;
+		float progress = floorAnimationTime / floorAnimationDuration;
+
+		// Suavizar la animación (ease-in-out)
+		//float t = progress * progress * (3.0f - 2.0f * progress);
+		float t = pow(progress, 7) * (3.0f - 2.0f * progress);
+		// Mover cada pieza desde su posición inicial a la final
+		if (progress > 0.1f) suelo3FinalPos = glm::mix(suelo3InitialPos, suelo3FinalPos, t);
+		if (progress > 0.2f) suelo4FinalPos = glm::mix(suelo4InitialPos, suelo4FinalPos, t);
+		if (progress > 0.3f) suelo5FinalPos = glm::mix(suelo5InitialPos, suelo5FinalPos, t);
+		if (progress > 0.4f) suelo6FinalPos = glm::mix(suelo6InitialPos, suelo6FinalPos, t);
+		if (progress > 0.5f) suelo7FinalPos = glm::mix(suelo7InitialPos, suelo7FinalPos, t);
+		if (progress > 0.6f) suelo8FinalPos = glm::mix(suelo8InitialPos, suelo8FinalPos, t);
+		if (progress > 0.7f) suelo9FinalPos = glm::mix(suelo9InitialPos, suelo9FinalPos, t);
+		if (progress > 0.8f) suelo2FinalPos = glm::mix(suelo2InitialPos, suelo2FinalPos, t);
+		camera = Camera(savedPosition, glm::vec3(0.0f, 1.0f, 0.0f)); // reconstruir
 	}
 }
 void MouseCallback(GLFWwindow* window, double xPos, double yPos)
